@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "TwiztLeague.h"
 
 #import "NSDataExtensions.h"
@@ -48,8 +64,6 @@
 
 
 - (int) addGame:(NSString*)opponentID opponentName:(NSString*)opponentName score:(int)score submitBoth:(bool)submitBoth {
-	//NSLog(@"addGame %@=%d", opponentID, score);
-	
 	NSMutableDictionary *opponentGames = [self getPlayerGames:opponentID playerName:opponentName];
 	
 	NSNumber *bestScore = [opponentGames objectForKey:@"BestScore"];
@@ -156,7 +170,6 @@
 
 
 - (void) writeState {
-	//NSLog(@"TwzitLeague.writeState path=%@", [self getStatePath]);
 	if (state) {
 		[state writeToFile:[self getStatePath] atomically:true];
 	}
@@ -165,8 +178,6 @@
 
 
 - (void) jsonLoaded:(NSString*)key dict:(NSDictionary*)dict {
-	//NSLog(@"TwiztLeague.jsonLoaded[%@]=%@", key, dict);	
-	
 	NSMutableDictionary *opponentGames = [self getPlayerGames:key playerName:nil];
 	bool dirty = false;
 	

@@ -1,12 +1,23 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "RotateAction.h"
 
 #import "Player.h"
 #import "Common.h"
-
-//#define FULL_DURATION 0.4f
-//#define FULL_ANGLE 6.0f
-//#define ANGLE_VELOCITY_MULT 4.0f
-
 
 @implementation RotateAction
 
@@ -29,7 +40,6 @@
 		angleDelta = D_PI - angleDelta;
 	}		
 
-	//NSLog(@"RotateAction setAngle currentAngle=%f newAngle=%f delta=%f", player.headBody->a, player.gloveAngle, angleDelta);
 	duration = angleDelta / ROTATE_SPEED; // how long will rotation take in seconds
 }
 
@@ -37,18 +47,7 @@
 
 -(void) start
 {
-	//NSLog(@"RotateAction START");
-	
 	isRunning = true;
-	
-	/*
-	NSLog(@"angle=%f", angle);
-	NSLog(@"duration=%f", duration);
-	NSLog(@"angleDelta=%f", angleDelta);	
-	NSLog(@"currentAngle=%f", player.headBody->a);
-		
-	NSLog(@"angleVelocity=%f", player.headBody->w);
-	 */
 	
 	[super start];
 }
@@ -57,17 +56,9 @@
 
 -(void) stop
 {	
-	//NSLog(@"RotateAction STOP angle=%f", player.headBody->a);
-
 	[super stop];
 	
 	isRunning = false;
-
-	//player.headBody->w = 0;
-	//player.gloveAngle = player.headBody->a;
-	//player.headBody->v = cpvzero;
-	//player.gloveBody->w = 0;
-	//player.gloveBody->v = cpvzero;
 	
 	[player.gloveSprite runAction:player.punchAction];
 }
@@ -75,12 +66,6 @@
 
 -(void) update: (ccTime) t
 {	
-	//NSLog(@"PunchAction UPDATE %f", t);
-	
-	//[self calcAngleDelta];
-	//player.headBody->w = angleDelta / duration * ANGLE_VELOCITY_MULT;	
-	
-	//NSLog(@"UPDATE t=%f a=%f ad=%f dur=%f av=%f", t, player.headBody->a, angleDelta, duration, player.headBody->w);
 }
 
 @end

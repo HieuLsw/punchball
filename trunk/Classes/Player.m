@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "Player.h"
 
 #import "PASoundMgr.h"
@@ -121,7 +137,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 	}
 	cpSpaceAddBody(space, gloveBody);
 	
-	//headGloveJoint1 = cpPinJointNew(headBody, gloveBody, cpv(0, 20), cpv(0, 20));
 	headGloveJoint1 = cpPinJointNew(headBody, gloveBody, cpv(0, 30), cpv(0, 20));
 	cpSpaceAddJoint(space, headGloveJoint1);
 	
@@ -130,9 +145,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 	
 	headGloveJoint3 = cpPinJointNew(headBody, gloveBody, cpv(30, 0), cpv(-20, 0));
 	cpSpaceAddJoint(space, headGloveJoint3);
-
-	//headGlovePunchJoint = cpSlideJointNew(headBody, gloveBody, cpv(0, 0), cpv(0, 0), 0, GLOVE_DIST_MAX);
-	//cpSpaceAddJoint(space, headGlovePunchJoint);
 
 	gloveWrapper = [[GameObjectWrapper alloc] initWithTarget:self];
 	
@@ -170,8 +182,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 					 [HeadParticle particleWithSpace:space manager:_headParticleSM index:8],
 					 nil];
 		
-	//NSLog(@"Player initWithPos headBody->a=%f", headBody->a);\
-	
 	slideSpeed = DEFAULT_SLIDE_SPEED;
 	
 	headWasHit = false;
@@ -186,8 +196,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 
 - (void) dealloc
 {	
-	//NSLog(@"Player dealloc");
-	
 	[headParticles release];
 	
 	[hitSound stop];
@@ -215,9 +223,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 	cpSpaceRemoveJoint(space, headGloveJoint1);
 	cpJointFree(headGloveJoint3);
 
-	//cpSpaceRemoveJoint(space, headGlovePunchJoint);
-	//cpJointFree(headGlovePunchJoint);
-	
 	cpSpaceRemoveBody(space, gloveBody);
 	cpBodyFree(gloveBody);
 	
@@ -303,22 +308,17 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 	if (state < 11) {
 		float power = [self getPower];
 		
-		//NSLog(@"power=%f", power);
-		
 		if ([rotateAction isRunning]) {
-			//NSLog(@"RotateAction <- stopAction");
 			[gloveSprite stopAction:rotateAction];
 			[rotateAction stop];
 		}
 		
 		if (![punchAction isDone]) {
-			//NSLog(@"PunchAction <- stopAction");
 			[gloveSprite stopAction:punchAction];
 			[punchAction stop];
 		}		
 	
 		[punchSound stop];						
-		//[punchSound playAtPosition: headBody->p];		
 		[punchSound playAtListenerPosition];		
 		
 		punchAction.dir = cpvsub(aim, headBody->p);		
@@ -383,8 +383,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 	}
 	
 	animIndex = 0;
-		
-	//NSLog(@"updateState %d", state * 40);
 }
 
 
@@ -407,7 +405,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 					[eyesSprite setTextureRect:CGRectMake(0, 180, 60, 60)];
 				} else {
 					int i = [self getPower] * 5;
-					//NSLog(@"eyeSprite=%d", i);
 					[eyesSprite setTextureRect:CGRectMake(i * 60, 180, 60, 60)]; 
 				}
 			}
@@ -424,14 +421,12 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 	slideTarget = *pos;
 	
 	if (fabs(sv.x) < SLIDE_TARGET_APROX && fabs(sv.y) < SLIDE_TARGET_APROX) {
-		//NSLog(@"slideTo brake:%s final=%d", cpvstr(*pos), final);
 		// do not slide
 		headBody->v = cpvzero;		
 		headBody->p = *pos;
 		isSliding = false;
 		
 	} else {
-		//NSLog(@"slideTo:%s final=%d", cpvstr(*pos), final);
 		isSliding = true;
 	}
 
@@ -466,7 +461,6 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 {
 	if (!byPlayer.punchAction.isDone && !byPlayer.punchAction.isHit) {
 		float force = [self calcHitForce:byPlayer->gloveBody to:headBody power:byPlayer.punchAction.power];
-		//NSLog(@"hitHead force=%f", force);		
 		byPlayer.punchAction.isHit = true;
 		
 		if (state > 10 && byPlayer.isLocal) {
@@ -623,25 +617,18 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 				if (!isFinalSlide) {
 					headBody->v = cpvzero;
 					headBody->p = slideTarget;
-					//NSLog(@"calcHeadVelocity braking");
 				} else {					
 					isSliding = false;
-					//NSLog(@"calcHeadVelocity slide over");				
 				}
 				
 			} else {				
 				headBody->v = cpvmult(cpvnormalize(sv), slideSpeed);
-				//NSLog(@"calcHeadVelocity sliding");				
 			}
 			
 			holdAngle = true;			
 			
-		} else /*if (holdAngle) {
-			headBody->v = cpvzero;
-			
-		} else */ {
+		} else {
 			// float freely
-			//NSLog(@"calcHeadVelocity float freely");				
 			headBody->v = cpvadd(cpvmult(headBody->v, damping), cpvmult(cpvmult(headBody->f, headBody->m_inv), delta));
 		}
 		
@@ -654,10 +641,7 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 			}		
 			
 			if (fabsf(angleDelta) < ROTATE_APROX) {
-				//NSLog(@"ANGLE=%f->%f", headBody->a, gloveAngle);
 				headBody->w = angleDelta;
-				//headBody->a = gloveAngle;
-				//correctPosition = false;
 			} else if (angleDelta > 0) {
 				headBody->w = ROTATE_SPEED;
 			} else {
@@ -702,12 +686,10 @@ void gloveUpdateVelocity(cpBody *body, cpVect gravity, cpFloat damping, cpFloat 
 
 -(void)correctPos:(PlayerInfo*)pi {
 	cpVect headPD = cpvsub(pi->headP, headBody->p);
-	//NSLog(@"correctPos headPD=%f,%f", headPD.x, headPD.y);
 	
 	if (fabs(headPD.x) >= SLIDE_TARGET_APROX || fabs(headPD.y) >= SLIDE_TARGET_APROX) {
 		cpVect headPC = cpvmult(headPD, 1/NETWORK_SYNC_CORRECTION_INTERVAL);
 		headBody->v = cpvadd(pi->headV, headPC);
-		//NSLog(@"correctPos headPC=%f,%f a=%f na=%f", headPC.x, headPC.y, headBody->p.x, headBody->a, pi->headA);
 		
 		gloveBody->v = cpvadd(pi->gloveV, headPC);
 	} else {

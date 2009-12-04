@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "MainMenu.h"
 
 
@@ -21,13 +37,6 @@
 	Menu *vhm = [Menu menuWithItems: vh, nil];
 	vhm.position = cpv(141, 137);
 	[self addChild:vhm z:1];
-
-	/*
-	MenuItemImage *cn = [MenuItemImage itemFromNormalImage:@"controls.png" selectedImage:@"controls_s.png" target:self selector:@selector(controls:)];	
-	Menu *cnm = [Menu menuWithItems: cn, nil];
-	cnm.position = cpv(330, 55);
-	[self addChild:cnm z:1];
-	 */
 	
 	MenuItemImage *lg = [MenuItemImage itemFromNormalImage:@"b_league.png" selectedImage:@"b_league_s.png" target:self selector:@selector(league:)];	
 	Menu *lgm = [Menu menuWithItems: lg, nil];
