@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "Link.h"
 
 
@@ -169,8 +185,6 @@ typedef enum {
 
 
 - (void)resync {
-	//NSLog(@" >>> resync");
-	
 	[self cointoss];
 	
 	if (self.state == StateReset) {
@@ -208,13 +222,6 @@ typedef enum {
 	int packetID = pIntData[1];
 	int objectIndex = pIntData[2];
 	
-	/*
-	if(packetTime < lastPacketTime && packetID != PACKET_COINTOSS) {
-		NSLog(@" >>> receiveData OLD PACKET:%d", packetID);	
-		return;	
-	}
-	*/
-	
 	lastPacketTime = packetTime;
 	
 	switch( packetID ) {
@@ -222,8 +229,6 @@ typedef enum {
 			{
 				// coin toss to determine roles of the two players
 				peerUniqueID = pIntData[3];
-				
-				//NSLog(@" >>> receiveData PACKET COINTOSS:%d", coinToss);					
 				
 				// if other player's coin is higher than ours then that player is the server
 				if(peerUniqueID > uniqueID) {
@@ -243,7 +248,6 @@ typedef enum {
 			break;	
 		default:
 			if (dataReceiver) {
-				//NSLog(@" >>> receiveData PACKET:%d", packetID);	
 				[dataReceiver receivePacket:packetID objectIndex:objectIndex data:&incomingPacket[packetHeaderSize]];
 			} else {
 				NSLog(@" !!! receiveData PACKET BEFORE COINTOSS: %d", packetID);
@@ -254,8 +258,6 @@ typedef enum {
 
 
 - (void)sendPacket:(int)packetID objectIndex:(int)objectIndex data:(void *)data length:(int)length reliable:(bool)howtosend {
-	
-	//NSLog(@" >>> sendPacket:%d", packetID);
 	
 	// the packet we'll send is resued
 	static unsigned char networkPacket[MAX_PACKET_SIZE];
@@ -295,12 +297,6 @@ typedef enum {
 		// We've been disconnected from the other peer.
 		
 		// Update user alert or throw alert if it isn't already up
-		/*
-		NSString *message = [NSString stringWithFormat:@"Could not reconnect with %@.", [session displayNameForPeer:peerID]];
-		if((self.state == StateReconnect) && self.connectionAlert && self.connectionAlert.visible) {
-			self.connectionAlert.message = message;
-		}
-		*/
 		
 		NSString *message = [NSString stringWithFormat:@"%@ has disconnected.", [_session displayNameForPeer:_peerID]];
 		if ((self.state == StateCointoss) && self.connectionAlert && self.connectionAlert.visible) {

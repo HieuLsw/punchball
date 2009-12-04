@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #define BORDER_WITDH 10000 // border width - increases this if player or glove get stuck of out bounds
 #define INNER_BORDER 0
 #define DAMPING 0.6 // how much resistance space will have. 1.0 = no resistance
@@ -26,13 +42,9 @@
 #define SLIDE_TARGET_APROX 10.0f // by how much pixels head should be from slide target to stop sliding
 
 #define ROTATE_SPEED 12.56  // radians per second 2*pi = 360 degrees 
-//#define ROTATE_SPEED 25.12  // radians per second 2*pi = 360 degrees 
 
 #define ROTATE_APROX 0.17
-//#define ROTATE_APROX 0.05
-//#define ROTATE_APROX 0.017
 
-//#define NETWORK_SYNC_INTERVAL 0.5f // in seconds
 #define NETWORK_SYNC_DELAY 0.05f // in seconds
 #define NETWORK_SYNC_CORRECTION_INTERVAL 0.5f
 #define NETWORK_SLIDE_INTERVAL 0.1f // how frequently send slide updates in seconds 

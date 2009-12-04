@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "AppController.h"
 #import "ReplaceLayerAction.h"
 #import "SinglePlayerGame.h"
@@ -35,13 +51,7 @@ typedef enum {
 	// before creating any layer, set the landscape mode
 	[[Director sharedDirector] setDeviceOrientation:CCDeviceOrientationLandscapeLeft];
 	
-	// AnimationInterval doesn't work with FastDirector, yet
-	//[[Director sharedDirector] setAnimationInterval:1.0/50];
-	//[[Director sharedDirector] setDisplayFPS:YES];
-	
 	[[Director sharedDirector] attachInView:window];
-	
-	//[[[Director sharedDirector] openGLView] setMultipleTouchEnabled:YES];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
@@ -58,7 +68,6 @@ typedef enum {
 	
 	currentLayer = nil;
 	
-	//[MenuItemFont setFontName:@"Helvetica"];
 	[MenuItemFont setFontSize:40];
 	
 	[PASoundMgr sharedSoundManager];
@@ -191,8 +200,6 @@ typedef enum {
 
 
 -(void) linkConnected: (LinkRole) role {
-	
-	//NSLog(@">>> linkConnected %d", role);
 
 	gameState = StateMulti;
 	
@@ -282,12 +289,6 @@ typedef enum {
 
 - (void) leaderboard {
 	league.delegate = nil;	
-
-	/*
-	if (gameState == StateMultiOver) {
-		[link invalidateSession];
-	}
-	*/
 	
 	[self onLeaguePlayer:opponentID];
 }

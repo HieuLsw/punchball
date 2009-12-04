@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "MultiPlayerGame.h"
 
 @implementation MultiPlayerGame
@@ -69,7 +85,6 @@
 - (void)layerReplaced
 {
 	[super layerReplaced];
-	//[self schedule:@selector(syncState:) interval:NETWORK_SYNC_INTERVAL];
 	if (localPlayer == leftPlayer) {
 		// fire up syncing
 		[self syncState];
@@ -81,44 +96,30 @@
 - (void)receivePacket:(int)packetID objectIndex:(int)objectIndex data:(void*)data {
 	switch (packetID) {
 		case NETWORK_UPDATE_DIR: {
-			//CGPoint *dir = (CGPoint*)data;
-			//NSLog(@" >>> receivePacket: NETWORK_UPDATE_DIR %s", cpvstr(*dir));			
-			//[remotePlayer updateDirection:*dir];
 			break;
 		}
 		case NETWORK_PUNCH: {
 			CGPoint *aim = (CGPoint*)data;
-			//NSLog(@" >>> receivePacket: NETWORK_PUNCH %s", cpvstr(*aim));
 			[remotePlayer punch:*aim];
 			break;
 		}
 		case NETWORK_TURN: {
 			CGPoint *aim = (CGPoint*)data;
-			//NSLog(@" >>> receivePacket: NETWORK_TURN %s", cpvstr(*aim));
 			[remotePlayer turn:*aim];
 			break;
 		}
 		case NETWORK_POS: {
 			PlayerInfo *pi = (PlayerInfo*)data;
-			//NSLog(@" >>> receivePacket: NETWORK_POS %s/%f", cpvstr(pi->pos), pi->a);
-			/*
-			if (remotePlayer.state < 11) {
-				[remotePlayer slideTo:&pi->pos final:false];
-				remotePlayer.gloveAngle = pi->a;
-			}
-			*/
 			[remotePlayer correctPos:pi];
 			localPlayer.health = pi->opponentHealth;
 			[self updateScores];
-			
-			//[self syncState];
+
 			[NSTimer scheduledTimerWithTimeInterval:NETWORK_SYNC_DELAY target:self selector:@selector(syncState) userInfo:nil repeats:NO];
 			break;
 		}
 			
 		case NETWORK_SLIDE: {
 			SlideInfo *slideInfo = (SlideInfo*)data;
-			//NSLog(@" >>> receivePacket: NETWORK_SLIDE %s", cpvstr(*pos));			
 			[remotePlayer slideTo: &slideInfo->slideTo final:slideInfo->finalSlide];
 			break;
 		}
@@ -150,7 +151,6 @@
 
 
 -(void) syncState {
-	//NSLog(@" >>> SYNC_STATE");
 	static PlayerInfo playerInfo;
 	playerInfo.headP = localPlayer.headBody->p;
 	playerInfo.gloveV = localPlayer.gloveBody->v;
@@ -215,7 +215,6 @@
 
 
 -(void) pause {
-	//NSLog(@"pause");
 	[link sendPacket:NETWORK_PAUSE objectIndex:0 data:nil length:0 reliable:YES];
 	[super pause];
 }
@@ -223,7 +222,6 @@
 
 
 -(void) resume {
-	//NSLog(@"resume");
 	[link sendPacket:NETWORK_RESUME objectIndex:0 data:nil length:0 reliable:YES];
 	[super resume];
 }
@@ -231,7 +229,6 @@
 
 
 -(void) menu {
-	//NSLog(@"menu");
 	[link sendPacket:NETWORK_RESUME objectIndex:0 data:nil length:0 reliable:YES];
 	[link invalidateSession];
 	[super menu];

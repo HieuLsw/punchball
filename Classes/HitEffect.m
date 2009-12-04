@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "HitEffect.h"
 
 
@@ -24,14 +40,10 @@
 	speedVar = 10;
 	
 	// radial
-	//radialAccel = -60;
-	//radialAccelVar = 30;
 	radialAccel = 0;
 	radialAccelVar = 0;
 	
 	// tagential
-	//tangentialAccel = 15;
-	//tangentialAccelVar = 10;
 	tangentialAccel = 0;
 	tangentialAccelVar = 0;
 	
@@ -51,33 +63,11 @@
 	// emits per second
 	emissionRate = totalParticles/life;
 	
-	// color of particles
-	
-	/*
-	if (_color == 0) {
-		endColor.r = startColor.r = 0.78f;
-		endColor.g = startColor.g = 0.45f;
-		endColor.b = startColor.b = 0.24f;
-	} if (_color == 1) {
-		endColor.r = startColor.r = 0.23f;
-		endColor.g = startColor.g = 0.78f;
-		endColor.b = startColor.b = 0.23f;
-	} if (_color == 2) {
-		endColor.r = startColor.r = 0.75f;
-		endColor.g = startColor.g = 0.75f;
-		endColor.b = startColor.b = 0.22f;
-	} if (_color == 3) {
-		endColor.r = startColor.r = 0.25f;
-		endColor.g = startColor.g = 0.22f;
-		endColor.b = startColor.b = 0.75f;
-	}
-	*/
-	
+	// color of particles	
 	endColor.r = startColor.r = 0.9f;
 	endColor.g = startColor.g = 0.9f;
 	endColor.b = startColor.b = 0.9f;
 	
-	//TODO... other colors
 	startColor.a = 1.0f;
 	startColorVar.r = 0.0f;
 	startColorVar.g = 0.0f;
@@ -90,11 +80,9 @@
 	endColorVar.b = 0.0f;
 	endColorVar.a = 0.0f;
 	
-	//self.texture = [[TextureMgr sharedTextureMgr] addImage: @"fire.png"];
 	self.texture = [[TextureMgr sharedTextureMgr] addImage: @"flake.png"];
 	
 	// additive
-	//blendAdditive = YES;
 	blendAdditive = NO;
 	
 	[self stopSystem];
@@ -128,8 +116,6 @@
 	
 	particleIdx = 0;
 	
-	// test performance with [self absolutePosition];
-	//	CGPoint	absolutePosition = [self convertToWorldSpace:CGPointZero];
 	CGPoint	absolutePosition = position_;
 	
 	while( particleIdx < particleCount )
@@ -140,36 +126,8 @@
 			
 			CGPoint tmp;;//, radial, tangential;
 			
-			/*
-			radial = CGPointZero;
-			// radial acceleration
-			if(p->pos.x || p->pos.y)
-				radial = ccpNormalize(p->pos);
-			tangential = radial;
-			radial = ccpMult(radial, p->radialAccel);
-			
-			// tangential acceleration
-			float newy = tangential.x;
-			tangential.x = -tangential.y;
-			tangential.y = newy;
-			tangential = ccpMult(tangential, p->tangentialAccel);
-			
-			// (gravity + radial + tangential) * dt
-			tmp = ccpAdd( ccpAdd( radial, tangential), gravity);
-			tmp = ccpMult( tmp, dt);
-			p->dir = ccpAdd( p->dir, tmp);
-			*/
 			tmp = ccpMult(p->dir, dt);
 			p->pos = ccpAdd( p->pos, tmp );
-			
-			/*
-			p->color.r += (p->deltaColor.r * dt);
-			p->color.g += (p->deltaColor.g * dt);
-			p->color.b += (p->deltaColor.b * dt);
-			p->color.a += (p->deltaColor.a * dt);
-			
-			p->size += (p->deltaSize * dt);
-			*/
 			
 			p->life -= dt;
 			

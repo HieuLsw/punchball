@@ -1,3 +1,19 @@
+/*
+ Copyright 2009 Kurt Daal
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 #import "Gestures.h"
 
 #define THRESHOLD 15.0f
@@ -33,28 +49,23 @@ typedef enum {
 
 
 - (void) touchesBegan:(NSSet *)touches {
-	//NSLog(@"gesture touchesBegan");
 }
 
 
 
 - (void) touchesMoved:(NSSet *)touches {
-	//NSLog(@"gesture touchesMoved");
 }
 
 
 
 - (void) touchesEnded:(NSSet *)touches {
 	NSMutableArray *directions = [NSMutableArray arrayWithCapacity:[touches count]];
-	//NSLog(@"gesture touchesEnded");
 	
 	for( UITouch *touch in touches ) {
 		CGPoint location = [touch locationInView: [touch view]];		
 		CGPoint prevLocation = [touch previousLocationInView: [touch view]];				
 		CGPoint delta = cpvsub(location, prevLocation);
 
-		//NSLog(@"gesture delta=%s", cpvstr(delta));
-		
 		if (delta.x > THRESHOLD) {
 			if (delta.y > THRESHOLD) {
 				[directions addObject:[NSNumber numberWithInt:DOWN_RIGHT]];
